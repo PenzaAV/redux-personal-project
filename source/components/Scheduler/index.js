@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 // Instruments
 import Styles from './styles.m.css';
 
-
 // Components
 import Task from '../Task';
 import Checkbox from '../../theme/assets/Checkbox';
@@ -17,12 +16,12 @@ import { bindActionCreators } from "redux";
 const mapStateToProps = (state) => {
     return {
         tasks: state.tasks,
-    }
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators({...tasksActions}, dispatch),
+        actions: bindActionCreators({ ...tasksActions }, dispatch),
     };
 };
 
@@ -30,6 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 export default class Scheduler extends Component {
     componentDidMount () {
         const { fetchTasksAsync } = this.props.actions;
+
         fetchTasksAsync();
     }
     _createTask = (event) => {
@@ -37,20 +37,42 @@ export default class Scheduler extends Component {
         const { createTaskAsync } = this.props.actions;
 
         event.preventDefault();
-        if(value)
+        if (value) {
             createTaskAsync(value);
+        }
     };
+
+    _updateTaskAsync = (task, meta) => {
+        const { updateTaskAsync } = this.props.actions;
+
+        updateTaskAsync({
+            id:        task.id,
+            message:   task.message,
+            completed: task.completed,
+            favorite:  task.favorite,
+        }, meta);
+    };
+    _enableEditState = (taskId) => {
+        const { enableEditState } = this.props.actions;
+
+        enableEditState(taskId);
+    };
+
     render () {
         const { tasks, actions } = this.props;
+
         const todoList = tasks.map((task) => (
             <Task
                 completed = { task.get('completed') }
                 favorite = { task.get('favorite') }
                 id = { task.get('id') }
+                isEditState = { task.get('isEditState') }
                 key = { task.get('id') }
                 message = { task.get('message') }
                 { ...task }
-                {...actions}
+                { ...actions }
+                _enableEditState = { this._enableEditState }
+                _updateTaskAsync = { this._updateTaskAsync }
             />
         ));
 
@@ -62,7 +84,7 @@ export default class Scheduler extends Component {
                         <input placeholder = 'Поиск' type = 'search' />
                     </header>
                     <section>
-                        <form onSubmit={ this._createTask }>
+                        <form onSubmit = { this._createTask }>
                             <input
                                 className = { Styles.createTask }
                                 maxLength = { 50 }

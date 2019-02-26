@@ -22,6 +22,18 @@ export const tasksActions = {
             payload: taskId,
         };
     },
+    updateTask: (task) => {
+        return {
+            type:    types.UPDATE_TASK,
+            payload: task,
+        };
+    },
+    enableEditState: (task) => {
+        return {
+            type:    types.ENABLE_EDIT_STATE,
+            payload: task,
+        };
+    },
 
     // Async
     fetchTasksAsync: () => {
@@ -35,11 +47,17 @@ export const tasksActions = {
             payload: text,
         };
     },
-
     removeTaskAsync: (taskId) => {
         return {
             type:    types.REMOVE_TASK_ASYNC,
             payload: taskId,
+        };
+    },
+    updateTaskAsync: (task, meta) => {
+        return {
+            type:    types.UPDATE_TASK_ASYNC,
+            payload: task,
+            meta,
         };
     },
 };

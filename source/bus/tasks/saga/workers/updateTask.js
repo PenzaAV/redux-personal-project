@@ -6,18 +6,19 @@ import { api } from "../../../../REST";
 import { tasksActions } from "../../actions";
 import { uiActions } from "../../../ui/actions";
 
-export function* fetchTasks () {
+export function* updateTask ({ payload: task }, meta ) {
     try {
         yield put(uiActions.startFetching());
-        const response = yield apply(api, api.fetchTasks);
-        const { data: tasks, message } = yield apply(response, response.json);
+        const response = yield apply(api, api.updateTask, [task]);
+        const { data: updatedTask, message } = yield apply(response, response.json);
 
         if (response.status !== 200) {
             throw new Error(message);
         }
-        yield put(tasksActions.fillTasks(tasks));
+
+        yield put(tasksActions.updateTask(updatedTask[0], meta));
     } catch (error) {
-        yield put(uiActions.emitError(error, "fetchTasks worker"));
+        yield put(uiActions.emitError(error, "updateTask worker"));
     } finally {
         yield put(uiActions.stopFetching());
     }
