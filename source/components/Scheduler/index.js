@@ -1,24 +1,56 @@
 // Core
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 
 // Instruments
 import Styles from './styles.m.css';
-import { tasks } from './tasks';
+
 
 // Components
 import Task from '../Task';
 import Checkbox from '../../theme/assets/Checkbox';
 
+// Actions
+import { tasksActions } from "../../bus/tasks/actions";
+import { bindActionCreators } from "redux";
+
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators({...tasksActions}, dispatch),
+    };
+};
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class Scheduler extends Component {
+    componentDidMount () {
+        const { fetchTasksAsync } = this.props.actions;
+        fetchTasksAsync();
+    }
+    _createTask = (event) => {
+        const { value } = event.target[0];
+        const { createTaskAsync } = this.props.actions;
+
+        event.preventDefault();
+        if(value)
+            createTaskAsync(value);
+    };
     render () {
+        const { tasks, actions } = this.props;
         const todoList = tasks.map((task) => (
             <Task
-                completed = { task.completed }
-                favorite = { task.favorite }
-                id = { task.id }
-                key = { task.id }
-                message = { task.message }
+                completed = { task.get('completed') }
+                favorite = { task.get('favorite') }
+                id = { task.get('id') }
+                key = { task.get('id') }
+                message = { task.get('message') }
                 { ...task }
+                {...actions}
             />
         ));
 
@@ -30,12 +62,13 @@ export default class Scheduler extends Component {
                         <input placeholder = 'Поиск' type = 'search' />
                     </header>
                     <section>
-                        <form>
+                        <form onSubmit={ this._createTask }>
                             <input
                                 className = { Styles.createTask }
                                 maxLength = { 50 }
                                 placeholder = 'Описание моей новой задачи'
                                 type = 'text'
+                                // onKeyPress = { this._newTaskHandler }
                             />
                             <button>Добавить задачу</button>
                         </form>

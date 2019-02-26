@@ -1,0 +1,13 @@
+export const types = {
+    // Sync
+    FILL_TASKS:          "FILL_TASKS",
+    CREATE_TASK:         "CREATE_TASK",
+    REMOVE_TASK:         "REMOVE_TASK",
+    UPDATE_TASK_MESSAGE: "UPDATE_TASK_MESSAGE",
+
+    // Async
+    CREATE_TASK_ASYNC: "CREATE_TASK_ASYNC",
+    FETCH_TASKS_ASYNC: "FETCH_TASKS_ASYNC",
+    REMOVE_TASK_ASYNC: "REMOVE_TASK_ASYNC",
+
+};

@@ -12,6 +12,11 @@ import Edit from '../../theme/assets/Edit';
 import Star from '../../theme/assets/Star';
 
 export default class Task extends PureComponent {
+    _removeTask = () => {
+        const { id, removeTaskAsync } = this.props;
+        removeTaskAsync(id);
+    };
+
     render () {
         const { message, completed } = this.props;
 
@@ -50,6 +55,7 @@ export default class Task extends PureComponent {
                         className = { Styles.removeTask }
                         color1 = '#3B8EF3'
                         color2 = '#000'
+                        onClick = { this._removeTask }
                     />
                 </div>
             </li>
