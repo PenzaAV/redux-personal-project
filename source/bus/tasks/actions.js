@@ -15,22 +15,51 @@ export const tasksActions = {
             payload: task,
         };
     },
-
     removeTask: (taskId) => {
         return {
             type:    types.REMOVE_TASK,
             payload: taskId,
         };
     },
-    updateTask: (task) => {
+    setCompleteTask: (task) => {
         return {
-            type:    types.UPDATE_TASK,
+            type:    types.SET_COMPLETE_TASK,
+            payload: task,
+        };
+    },
+    unsetCompleteTask: (task) => {
+        return {
+            type:    types.UNSET_COMPLETE_TASK,
+            payload: task,
+        };
+    },
+    setFavoriteTask: (task) => {
+        return {
+            type:    types.SET_FAVORITE_TASK,
+            payload: task,
+        };
+    },
+    unsetFavoriteTask: (task) => {
+        return {
+            type:    types.UNSET_FAVORITE_TASK,
+            payload: task,
+        };
+    },
+    setNewTaskMessage: (task) => {
+        return {
+            type:    types.SET_NEW_TASK_MESSAGE,
             payload: task,
         };
     },
     enableEditState: (task) => {
         return {
             type:    types.ENABLE_EDIT_STATE,
+            payload: task,
+        };
+    },
+    disableEditState: (task) => {
+        return {
+            type:    types.DISABLE_EDIT_STATE,
             payload: task,
         };
     },
@@ -53,11 +82,28 @@ export const tasksActions = {
             payload: taskId,
         };
     },
-    updateTaskAsync: (task, meta) => {
+    setCompleteTaskAsync: (task) => {
         return {
-            type:    types.UPDATE_TASK_ASYNC,
+            type:    types.SET_COMPLETE_TASK_ASYNC,
             payload: task,
-            meta,
+        };
+    },
+    unsetCompleteTaskAsync: (task) => {
+        return {
+            type:    types.UNSET_COMPLETE_TASK_ASYNC,
+            payload: task,
+        };
+    },
+    setFavoriteTaskAsync: (task) => {
+        return {
+            type:    types.SET_FAVORITE_TASK_ASYNC,
+            payload: task,
+        };
+    },
+    unsetFavoriteTaskAsync: (task) => {
+        return {
+            type:    types.UNSET_FAVORITE_TASK_ASYNC,
+            payload: task,
         };
     },
 };

@@ -1,17 +1,20 @@
 // Core
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import FlipMove from "react-flip-move";
 
 // Instruments
 import Styles from './styles.m.css';
+import { filterTasksByMessage } from "../../instruments/helpers";
+import { sortTasksByGroup } from "../../instruments/helpers";
 
 // Components
 import Task from '../Task';
-import Checkbox from '../../theme/assets/Checkbox';
 
+import Checkbox from '../../theme/assets/Checkbox';
 // Actions
 import { tasksActions } from "../../bus/tasks/actions";
-import { bindActionCreators } from "redux";
 
 const mapStateToProps = (state) => {
     return {
@@ -28,9 +31,9 @@ const mapDispatchToProps = (dispatch) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Scheduler extends Component {
     componentDidMount () {
-        const { fetchTasksAsync } = this.props.actions;
+        const { actions } = this.props;
 
-        fetchTasksAsync();
+        actions.fetchTasksAsync();
     }
     _createTask = (event) => {
         const { value } = event.target[0];
@@ -42,27 +45,12 @@ export default class Scheduler extends Component {
         }
     };
 
-    _updateTaskAsync = (task, meta) => {
-        const { updateTaskAsync } = this.props.actions;
-
-        updateTaskAsync({
-            id:        task.id,
-            message:   task.message,
-            completed: task.completed,
-            favorite:  task.favorite,
-        }, meta);
-    };
-    _enableEditState = (taskId) => {
-        const { enableEditState } = this.props.actions;
-
-        enableEditState(taskId);
-    };
-
     render () {
         const { tasks, actions } = this.props;
-
-        const todoList = tasks.map((task) => (
+        const sortedTasks = sortTasksByGroup(tasks);
+        const todoList = sortedTasks.map((task) => (
             <Task
+                actions = { actions }
                 completed = { task.get('completed') }
                 favorite = { task.get('favorite') }
                 id = { task.get('id') }
@@ -70,9 +58,6 @@ export default class Scheduler extends Component {
                 key = { task.get('id') }
                 message = { task.get('message') }
                 { ...task }
-                { ...actions }
-                _enableEditState = { this._enableEditState }
-                _updateTaskAsync = { this._updateTaskAsync }
             />
         ));
 
@@ -95,7 +80,9 @@ export default class Scheduler extends Component {
                             <button>Добавить задачу</button>
                         </form>
                         <div className = { Styles.overlay }>
-                            <ul>{todoList}</ul>
+                            <ul>
+                                <FlipMove duration = { 400 }>{ todoList }</FlipMove>
+                            </ul>
                         </div>
                     </section>
                     <footer>

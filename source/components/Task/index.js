@@ -23,35 +23,45 @@ export default class Task extends PureComponent {
     taskInput = React.createRef();
 
     _removeTask = () => {
-        const { id, removeTaskAsync } = this.props;
+        const { id, actions } = this.props;
 
-        removeTaskAsync(id);
+        actions.removeTaskAsync(id);
     };
+
     _toggleComplete = () => {
-        const { _updateTaskAsync } = this.props;
+        const { completed, actions } = this.props;
 
-        _updateTaskAsync({
-            ...this.props,
-            completed: !this.props.completed,
-        }, 'toggle completed state');
+        if (completed) {
+            actions.unsetCompleteTaskAsync({ ...this.props });
+        } else {
+            actions.setCompleteTaskAsync({ ...this.props });
+        }
     };
+
     _toggleFavorite = () => {
-        const { _updateTaskAsync } = this.props;
+        const { favorite, actions } = this.props;
 
-        _updateTaskAsync({
-            ...this.props,
-            favorite: !this.props.favorite,
-        }, 'toggle favorite state');
+        if (favorite) {
+            actions.unsetFavoriteTaskAsync({ ...this.props });
+        } else {
+            actions.setFavoriteTaskAsync({ ...this.props });
+        }
     };
-    _enableEditState = () => {
-        const { _enableEditState, id } = this.props;
 
-        _enableEditState(id);
+    _enableEditState = () => {
+        const { actions } = this.props;
+
+        actions.enableEditState(this.props);
+    };
+
+    _disableEditState = () => {
+        const { actions } = this.props;
+
+        actions.disableEditState(this.props);
     };
 
     render () {
         const { message, completed, favorite, isEditState } = this.props;
-
         const styles = cx(Styles.task, {
             [Styles.completed]: completed,
         });
@@ -72,6 +82,7 @@ export default class Task extends PureComponent {
                         ref = { this.taskInput }
                         type = 'text'
                         value = { message }
+                        onBlur = { this._disableEditState }
                     />
                 </div>
                 <div className = { Styles.actions }>
