@@ -18,7 +18,8 @@ import { tasksActions } from "../../bus/tasks/actions";
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks,
+        tasks:     state.tasks,
+        scheduler: state.scheduler,
     };
 };
 
@@ -54,9 +55,10 @@ export default class Scheduler extends Component {
                 completed = { task.get('completed') }
                 favorite = { task.get('favorite') }
                 id = { task.get('id') }
-                isEditState = { task.get('isEditState') }
+                isEditState = { task.get('isEditState') || false }
                 key = { task.get('id') }
                 message = { task.get('message') }
+                newMessage = { task.get('newMessage') || '' }
                 { ...task }
             />
         ));

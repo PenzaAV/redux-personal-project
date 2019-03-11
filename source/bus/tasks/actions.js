@@ -45,10 +45,15 @@ export const tasksActions = {
             payload: task,
         };
     },
-    setNewTaskMessage: (task) => {
+    setNewTaskMessage: (id, message) => {
         return {
             type:    types.SET_NEW_TASK_MESSAGE,
-            payload: task,
+            payload: { id, message },
+        };
+    },
+    clearNewTaskMessage: () => {
+        return {
+            type: types.CLEAR_NEW_TASK_MESSAGE,
         };
     },
     enableEditState: (task) => {
@@ -57,9 +62,14 @@ export const tasksActions = {
             payload: task,
         };
     },
-    disableEditState: (task) => {
+    disableEditState: () => {
         return {
-            type:    types.DISABLE_EDIT_STATE,
+            type: types.DISABLE_EDIT_STATE,
+        };
+    },
+    updateTaskMessage: (task) => {
+        return {
+            type:    types.UPDATE_TASK_MESSAGE,
             payload: task,
         };
     },
@@ -106,4 +116,11 @@ export const tasksActions = {
             payload: task,
         };
     },
+    updateTaskMessageAsync: (task) => {
+        return {
+            type:    types.UPDATE_TASK_MESSAGE_ASYNC,
+            payload: task,
+        };
+    },
+
 };

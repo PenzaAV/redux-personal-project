@@ -48,20 +48,36 @@ export default class Task extends PureComponent {
         }
     };
 
-    _enableEditState = () => {
+    _updateNewMessage = (event) => {
         const { actions } = this.props;
 
-        actions.enableEditState(this.props);
+        actions.setNewTaskMessage(this.props.id, event.target.value);
     };
 
-    _disableEditState = () => {
-        const { actions } = this.props;
+    _editStateHandler = () => {
+        const { actions, isEditState, id, message } = this.props;
 
-        actions.disableEditState(this.props);
+        actions.disableEditState();
+        actions.clearNewTaskMessage();
+
+        if (!isEditState) {
+            actions.setNewTaskMessage(id, message);
+            actions.enableEditState(this.props);
+        }
     };
+    _keyDownHandler = () => {
+        const { actions, newMessage } = this.props;
 
+        if (event.key === "Escape") {
+            actions.disableEditState();
+            actions.clearNewTaskMessage();
+        }
+        if (event.key === "Enter" && newMessage !== "") {
+            actions.updateTaskMessageAsync(this.props);
+        }
+    }
     render () {
-        const { message, completed, favorite, isEditState } = this.props;
+        const { newMessage, message, completed, favorite, isEditState } = this.props;
         const styles = cx(Styles.task, {
             [Styles.completed]: completed,
         });
@@ -81,8 +97,9 @@ export default class Task extends PureComponent {
                         disabled = { !isEditState }
                         ref = { this.taskInput }
                         type = 'text'
-                        value = { message }
-                        onBlur = { this._disableEditState }
+                        value = { isEditState ? newMessage : message }
+                        onChange = { this._updateNewMessage }
+                        onKeyDown = { this._keyDownHandler }
                     />
                 </div>
                 <div className = { Styles.actions }>
@@ -96,11 +113,11 @@ export default class Task extends PureComponent {
                     />
                     <Edit
                         inlineBlock
-                        checked = { false }
+                        checked = { isEditState }
                         className = { Styles.updateTaskMessageOnClick }
                         color1 = '#3B8EF3'
                         color2 = '#000'
-                        onClick = { this._enableEditState }
+                        onClick = { this._editStateHandler }
                     />
                     <Remove
                         inlineBlock
