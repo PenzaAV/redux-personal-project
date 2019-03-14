@@ -51,17 +51,17 @@ export default class Task extends PureComponent {
     _updateNewMessage = (event) => {
         const { actions } = this.props;
 
-        actions.setNewTaskMessage(this.props.id, event.target.value);
+        actions.setTaskNewMessage(this.props.id, event.target.value);
     };
 
     _editStateHandler = () => {
         const { actions, isEditState, id, message } = this.props;
 
         actions.disableEditState();
-        actions.clearNewTaskMessage();
+        actions.clearTaskNewMessage();
 
         if (!isEditState) {
-            actions.setNewTaskMessage(id, message);
+            actions.setTaskNewMessage(id, message);
             actions.enableEditState(this.props);
         }
     };
@@ -70,7 +70,7 @@ export default class Task extends PureComponent {
 
         if (event.key === "Escape") {
             actions.disableEditState();
-            actions.clearNewTaskMessage();
+            actions.clearTaskNewMessage();
         }
         if (event.key === "Enter" && newMessage !== "") {
             actions.updateTaskMessageAsync(this.props);

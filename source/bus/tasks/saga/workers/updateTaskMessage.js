@@ -24,7 +24,7 @@ export function* updateTaskMessage ({ payload: task }) {
         }
 
         yield put(tasksActions.disableEditState());
-        yield put(tasksActions.clearNewTaskMessage());
+        yield put(tasksActions.clearTaskNewMessage());
         yield put(tasksActions.updateTaskMessage(data[0]));
     } catch (error) {
         yield put(uiActions.emitError(error, "setFavoriteTask worker"));

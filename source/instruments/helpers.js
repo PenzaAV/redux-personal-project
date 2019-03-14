@@ -53,9 +53,10 @@ export const sortTasksByGroup = (tasks) => {
     ];
 };
 
-export const filterTasksByMessage = (tasks, filter) => {
-    if (filter !== '') {
-        return tasks.filter((task) => task.get('message').indexOf(filter) !== -1);
+export const filterTasksByMessage = (tasks, tasksFilter) => {
+
+    if (tasksFilter) {
+        return tasks.filter((task) => task.get('message').indexOf(tasksFilter) !== -1);
     }
 
     return tasks;

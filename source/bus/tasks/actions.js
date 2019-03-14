@@ -45,15 +45,15 @@ export const tasksActions = {
             payload: task,
         };
     },
-    setNewTaskMessage: (id, message) => {
+    setTaskNewMessage: (id, message) => {
         return {
-            type:    types.SET_NEW_TASK_MESSAGE,
+            type:    types.SET_TASK_NEW_MESSAGE,
             payload: { id, message },
         };
     },
-    clearNewTaskMessage: () => {
+    clearTaskNewMessage: () => {
         return {
-            type: types.CLEAR_NEW_TASK_MESSAGE,
+            type: types.CLEAR_TASK_NEW_MESSAGE,
         };
     },
     enableEditState: (task) => {
@@ -73,7 +73,12 @@ export const tasksActions = {
             payload: task,
         };
     },
-
+    completeAllTasks: (tasks) => {
+        return {
+            type:    types.COMPLETE_ALL_TASKS,
+            payload: tasks,
+        };
+    },
     // Async
     fetchTasksAsync: () => {
         return {
@@ -122,5 +127,10 @@ export const tasksActions = {
             payload: task,
         };
     },
-
+    completeAllTasksAsync: (tasks) => {
+        return {
+            type:    types.COMPLETE_ALL_TASKS_ASYNC,
+            payload: tasks,
+        };
+    },
 };

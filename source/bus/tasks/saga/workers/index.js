@@ -6,3 +6,4 @@ export { unsetCompleteTask } from './unsetCompleteTask';
 export { setFavoriteTask } from './setFavoriteTask';
 export { unsetFavoriteTask } from './unsetFavoriteTask';
 export { updateTaskMessage } from './updateTaskMessage';
+export { completeAllTasks } from './completeAllTasks';

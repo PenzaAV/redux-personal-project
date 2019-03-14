@@ -1,0 +1,1 @@
+export { checkIsAllCompleted } from './checkIsAllCompleted';

@@ -51,6 +51,8 @@ export const api = {
             await api.updateTask(task);
         });
 
-        return Promise.all(completedTasks);
+        return Promise.all(completedTasks).catch((error) => {
+            console.log(error); // some coding error in handling happened
+        });
     },
 };

@@ -8,6 +8,7 @@ import { uiActions } from "../../../ui/actions";
 import { taskShape } from "../../../../instruments/helpers";
 
 export function* setCompleteTask ({ payload: task }) {
+    console.log(task);
     try {
         yield put(uiActions.startFetching());
         const completedTask = taskShape({
