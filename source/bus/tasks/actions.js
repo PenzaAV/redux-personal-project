@@ -74,6 +74,7 @@ export const tasksActions = {
         };
     },
     completeAllTasks: (tasks) => {
+        console.log(tasks);
         return {
             type:    types.COMPLETE_ALL_TASKS,
             payload: tasks,

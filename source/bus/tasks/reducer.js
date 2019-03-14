@@ -22,9 +22,8 @@ export const tasksReducer =  (state = initialState, action) => {
                 (task) => task.get('id') === action.payload.id)
                 , (task) => task.merge(action.payload));
         case types.COMPLETE_ALL_TASKS:
-            return state.update(state.findIndex(
-                (task) => task.get('completed') === false)
-                , (task) => task.set('completed', true));
+            return state.map((task) => task.set('completed', true));
+
         case types.SET_FAVORITE_TASK:
             return state.update(state.findIndex(
                 (task) => task.get('id') === action.payload.id)

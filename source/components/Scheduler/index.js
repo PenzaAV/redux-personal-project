@@ -61,9 +61,11 @@ export default class Scheduler extends Component {
     };
 
     _completeAllTasks = () => {
-        const { actions, tasks } = this.props;
+        const { actions, tasks, scheduler } = this.props;
 
-        actions.completeAllTasksAsync(tasks);
+        if (!scheduler.get('allTasksCompleted')) {
+            actions.completeAllTasksAsync(tasks);
+        }
     };
 
     render () {

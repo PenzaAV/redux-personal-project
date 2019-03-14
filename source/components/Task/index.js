@@ -75,7 +75,7 @@ export default class Task extends PureComponent {
         if (event.key === "Enter" && newMessage !== "") {
             actions.updateTaskMessageAsync(this.props);
         }
-    }
+    };
     render () {
         const { newMessage, message, completed, favorite, isEditState } = this.props;
         const styles = cx(Styles.task, {
