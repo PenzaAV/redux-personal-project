@@ -37,19 +37,20 @@ export default class Scheduler extends Component {
         actions.fetchTasksAsync();
     }
 
-    componentDidUpdate () {
-        const { actions, tasks } = this.props;
+    _updateNewTaskMessage = (event) => {
+        const { actions } = this.props;
 
-        actions.checkIsAllTasksCompleted(tasks);
-    }
+        actions.updateNewTaskMessage(event.target.value);
+    };
 
     _createTask = (event) => {
         const { value } = event.target[0];
-        const { createTaskAsync } = this.props.actions;
+        const { actions } = this.props;
 
         event.preventDefault();
         if (value) {
-            createTaskAsync(value);
+            actions.createTaskAsync(value);
+            actions.updateNewTaskMessage('');
         }
     };
 
@@ -61,19 +62,26 @@ export default class Scheduler extends Component {
     };
 
     _completeAllTasks = () => {
-        const { actions, tasks, scheduler } = this.props;
+        const { actions, tasks } = this.props;
+        const hasUncompleted = tasks.some((task) => {
+            return task.get('completed') === false;
+        });
 
-        if (!scheduler.get('allTasksCompleted')) {
+        if (hasUncompleted) {
             actions.completeAllTasksAsync(tasks);
         }
+
     };
 
     render () {
         const { scheduler, tasks, actions } = this.props;
-        const isChecked = scheduler.get('allTasksCompleted');
         const tasksFilter = scheduler.get('tasksFilter');
+        const newTaskMessage = scheduler.get('newTaskMessage');
         const sortedTasks = sortTasksByGroup(tasks);
         const filteredTasks = filterTasksByMessage(sortedTasks, tasksFilter);
+        const hasUncompleted = tasks.some((task) => {
+            return task.get('completed') === false;
+        });
         const todoList = filteredTasks.map((task) => {
 
             return (
@@ -107,6 +115,8 @@ export default class Scheduler extends Component {
                                 maxLength = { 50 }
                                 placeholder = 'Описание моей новой задачи'
                                 type = 'text'
+                                value = { newTaskMessage }
+                                onChange = { this._updateNewTaskMessage }
                             />
                             <button>Добавить задачу</button>
                         </form>
@@ -118,7 +128,7 @@ export default class Scheduler extends Component {
                     </section>
                     <footer>
                         <Checkbox
-                            checked = { isChecked }
+                            checked = { !hasUncompleted }
                             color1 = '#363636'
                             color2 = '#fff'
                             onClick = { this._completeAllTasks }

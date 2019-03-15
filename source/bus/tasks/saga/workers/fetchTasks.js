@@ -4,9 +4,7 @@ import { put, apply } from "redux-saga/effects";
 // Instruments
 import { api } from "../../../../REST";
 import { tasksActions } from "../../actions";
-import { schedulerActions} from "../../../scheduler/actions";
 import { uiActions } from "../../../ui/actions";
-import { fromJS } from "immutable";
 
 export function* fetchTasks () {
     try {
@@ -18,7 +16,6 @@ export function* fetchTasks () {
             throw new Error(message);
         }
         yield put(tasksActions.fillTasks(tasks));
-        yield put(schedulerActions.checkIsAllTasksCompleted(fromJS(tasks)));
     } catch (error) {
         yield put(uiActions.emitError(error, "fetchTasks worker"));
     } finally {
