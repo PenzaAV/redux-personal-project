@@ -16,6 +16,7 @@ export function* setCompleteTask ({ payload: task }) {
         });
 
         const response = yield apply(api, api.updateTask, [completedTask]);
+
         const { data: updatedTask, message } = yield apply(response, response.json);
 
         if (response.status !== 200) {

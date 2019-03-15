@@ -61,3 +61,9 @@ export const filterTasksByMessage = (tasks, tasksFilter) => {
 
     return tasks;
 };
+
+export const getUncompleted = (tasks) => {
+    return tasks.filter((task) => {
+        return task.get('completed') === false;
+    });
+};

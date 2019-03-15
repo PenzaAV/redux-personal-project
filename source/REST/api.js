@@ -45,14 +45,14 @@ export const api = {
         });
     },
 
-    completeAllTasks (tasks) {
-        const completedTasks = tasks.map(async (task) => {
-            task.completed = true;
-            await api.updateTask(task);
-        });
+    async completeAllTasks (tasks) {
+        const completedTasks = tasks.map(
+            (task) => {
+                task.completed = true;
 
-        return Promise.all(completedTasks).catch((error) => {
-            console.log(error); // some coding error in handling happened
-        });
+                return api.updateTask(task);
+            });
+
+        return await Promise.all(completedTasks.map((p) => p.catch((e) => e)));
     },
 };

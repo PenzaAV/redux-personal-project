@@ -94,6 +94,7 @@ export default class Task extends PureComponent {
                         onClick = { this._toggleComplete }
                     />
                     <input
+                        maxLength = { 50 }
                         disabled = { !isEditState }
                         ref = { this.taskInput }
                         type = 'text'

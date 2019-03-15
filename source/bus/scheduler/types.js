@@ -1,4 +1,5 @@
 export const types = {
     UPDATE_NEW_TASK_MESSAGE: "UPDATE_NEW_TASK_MESSAGE",
     UPDATE_TASKS_FILTER:     "UPDATE_TASKS_FILTER",
+    EMIT_ERROR:              "EMIT_ERROR",
 };

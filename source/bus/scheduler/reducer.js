@@ -16,10 +16,6 @@ export const schedulerReducer = (state = initialState, action) => {
             return state.set("tasksFilter", action.payload);
         case types.UPDATE_NEW_TASK_MESSAGE:
             return state.set("newTaskMessage", action.payload);
-        case types.SET_ALL_TASKS_AS_COMPLETED:
-            return state.set("allTasksCompleted", true);
-        case types.UNSET_ALL_TASKS_AS_COMPLETED:
-            return state.set("allTasksCompleted", false);
         default:
             return state;
     }
