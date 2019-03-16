@@ -3,49 +3,31 @@ import { types } from "./types";
 
 export const tasksActions = {
     // Sync
-    fillTasks: (tasks) => {
+    fillTasks:           (tasks) => {
         return {
             type:    types.FILL_TASKS,
             payload: tasks,
         };
     },
-    createTask: (task) => {
+    createTask:          (task) => {
         return {
             type:    types.CREATE_TASK,
             payload: task,
         };
     },
-    removeTask: (taskId) => {
+    removeTask:          (taskId) => {
         return {
             type:    types.REMOVE_TASK,
             payload: taskId,
         };
     },
-    setCompleteTask: (task) => {
+    updateTask:          (task) => {
         return {
-            type:    types.SET_COMPLETE_TASK,
+            type:    types.UPDATE_TASK,
             payload: task,
         };
     },
-    unsetCompleteTask: (task) => {
-        return {
-            type:    types.UNSET_COMPLETE_TASK,
-            payload: task,
-        };
-    },
-    setFavoriteTask: (task) => {
-        return {
-            type:    types.SET_FAVORITE_TASK,
-            payload: task,
-        };
-    },
-    unsetFavoriteTask: (task) => {
-        return {
-            type:    types.UNSET_FAVORITE_TASK,
-            payload: task,
-        };
-    },
-    setTaskNewMessage: (id, message) => {
+    setTaskNewMessage:   (id, message) => {
         return {
             type:    types.SET_TASK_NEW_MESSAGE,
             payload: { id, message },
@@ -56,7 +38,7 @@ export const tasksActions = {
             type: types.CLEAR_TASK_NEW_MESSAGE,
         };
     },
-    enableEditState: (task) => {
+    enableEditState:     (task) => {
         return {
             type:    types.ENABLE_EDIT_STATE,
             payload: task,

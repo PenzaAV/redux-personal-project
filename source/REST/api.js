@@ -1,4 +1,5 @@
 import { MAIN_URL, TOKEN } from "./config";
+import { taskShape } from "../instruments/helpers";
 
 export const api = {
     createTask (message) {
@@ -26,14 +27,7 @@ export const api = {
                 "content-type": "application/json",
                 Authorization:  TOKEN,
             },
-            body: JSON.stringify([
-                {
-                    id:        task.id,
-                    message:   task.message,
-                    completed: task.completed,
-                    favorite:  task.favorite,
-                }
-            ]),
+            body: JSON.stringify([taskShape(task)]),
         });
     },
     removeTask (taskId) {
@@ -52,7 +46,11 @@ export const api = {
 
                 return api.updateTask(task);
             });
+        return await Promise.all(completedTasks.map((promise) => {
+            return promise.catch((error) => {
 
-        return await Promise.all(completedTasks.map((p) => p.catch((e) => e)));
+                return error;
+            });
+        }));
     },
 };

@@ -11,19 +11,21 @@ import { apply, put } from "redux-saga/effects";
 
 describe('complete all tasks saga:', () => {
     test('should complete a 200 status response scenario', async () => {
-        await expectSaga(completeAllTasks)
+        await expectSaga(completeAllTasks, { payload: __.tasksState })
             .put(uiActions.startFetching())
             .apply(getUncompleted, getUncompleted, [__.tasksState])
-            .apply(api, api.completeAllTasks, [__.tasksState.toJS()])
+            .provide([[apply(api, api.completeAllTasks, [__.uncompletedTasksState.toJS()]), __.promiseAllResponseSuccess]])
             .put(tasksActions.completeAllTasks())
-            .put(uiActions.stopFetching());
+            .put(uiActions.stopFetching())
+            .run();
     });
     test('should complete a 400 status response scenario', async () => {
-        await expectSaga(completeAllTasks)
+        await expectSaga(completeAllTasks, { payload: __.tasksState })
             .put(uiActions.startFetching())
             .apply(getUncompleted, getUncompleted, [__.tasksState])
-            .provide([[apply(api, api.completeAllTasks, [__.tasksState.toJS()]), __.promiseAllResponseError]])
+            .provide([[apply(api, api.completeAllTasks, [__.uncompletedTasksState.toJS()]), __.promiseAllResponseError]])
             .put(uiActions.emitError(__.error, "completeAllTasks worker"))
-            .put(uiActions.stopFetching());
+            .put(uiActions.stopFetching())
+            .run();
     });
 });

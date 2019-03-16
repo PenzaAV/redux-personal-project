@@ -73,7 +73,7 @@ export default class Task extends PureComponent {
             actions.clearTaskNewMessage();
         }
         if (event.key === "Enter" && newMessage !== "") {
-            actions.updateTaskMessageAsync(this.props);
+            actions.updateTaskMessageAsync({ ...this.props, message: newMessage });
         }
     };
     render () {
@@ -94,13 +94,13 @@ export default class Task extends PureComponent {
                         onClick = { this._toggleComplete }
                     />
                     <input
-                        maxLength = { 50 }
                         disabled = { !isEditState }
+                        maxLength = { 50 }
+                        onChange = { this._updateNewMessage }
+                        onKeyDown = { this._keyDownHandler }
                         ref = { this.taskInput }
                         type = 'text'
                         value = { isEditState ? newMessage : message }
-                        onChange = { this._updateNewMessage }
-                        onKeyDown = { this._keyDownHandler }
                     />
                 </div>
                 <div className = { Styles.actions }>

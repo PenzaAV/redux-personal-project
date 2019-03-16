@@ -8,16 +8,14 @@ import { uiActions } from "../../../ui/actions";
 import { taskShape } from "../../../../instruments/helpers";
 
 export function* updateTaskMessage ({ payload: task }) {
+    console.log(task);
     try {
         yield put(uiActions.startFetching());
 
-        const renewedTask = taskShape({
-            ...task,
-            message: task.newMessage,
-        });
+        const renewedTask = yield apply(taskShape, taskShape, [task]);
 
         const response = yield apply(api, api.updateTask, [renewedTask]);
-        const { data, message } = yield apply(response, response.json);
+        const{ data: updatedTask, message } = yield apply(response, response.json);
 
         if (response.status !== 200) {
             throw new Error(message);
@@ -25,7 +23,7 @@ export function* updateTaskMessage ({ payload: task }) {
 
         yield put(tasksActions.disableEditState());
         yield put(tasksActions.clearTaskNewMessage());
-        yield put(tasksActions.updateTaskMessage(data[0]));
+        yield put(tasksActions.updateTaskMessage(updatedTask));
     } catch (error) {
         yield put(uiActions.emitError(error, "setFavoriteTask worker"));
     } finally {

@@ -13,24 +13,12 @@ export const tasksReducer =  (state = initialState, action) => {
             return fromJS(action.payload);
         case types.REMOVE_TASK:
             return state.filter((task) => task.get('id') !== action.payload);
-        case types.SET_COMPLETE_TASK:
+        case types.UPDATE_TASK:
             return state.update(state.findIndex(
-                (task) => task.get('id') === action.payload.id)
-                , (task) => task.merge(action.payload));
-        case types.UNSET_COMPLETE_TASK:
-            return state.update(state.findIndex(
-                (task) => task.get('id') === action.payload.id)
-                , (task) => task.merge(action.payload));
+                (task) => task.get('id') === action.payload[0].id)
+                , (task) => task.merge(action.payload[0]));
         case types.COMPLETE_ALL_TASKS:
             return state.map((task) => task.set('completed', true));
-        case types.SET_FAVORITE_TASK:
-            return state.update(state.findIndex(
-                (task) => task.get('id') === action.payload.id)
-                , (task) => task.merge(action.payload));
-        case types.UNSET_FAVORITE_TASK:
-            return state.update(state.findIndex(
-                (task) => task.get('id') === action.payload.id)
-                , (task) => task.merge(action.payload));
         case types.ENABLE_EDIT_STATE:
             return state.update(state.findIndex(
                 (task) => task.get('id') === action.payload.id)
@@ -45,8 +33,8 @@ export const tasksReducer =  (state = initialState, action) => {
             return filterTasksByMessage(state, action.payload);
         case types.UPDATE_TASK_MESSAGE:
             return state.update(state.findIndex(
-                (task) => task.get('id') === action.payload.id)
-                , (task) => task.set('message', action.payload.message));
+                (task) => task.get('id') === action.payload[0].id)
+                , (task) => task.set('message', action.payload[0].message));
         case types.SET_TASK_NEW_MESSAGE:
             return state.update(state.findIndex(
                 (task) => task.get('id') === action.payload.id)

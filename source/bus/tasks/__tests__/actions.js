@@ -10,18 +10,6 @@ describe('Tasks actions', () => {
     test('removeTask', () => {
         expect(tasksActions.removeTask(__.taskId)).toMatchSnapshot();
     });
-    test('setCompleteTask', () => {
-        expect(tasksActions.setCompleteTask(__.task)).toMatchSnapshot();
-    });
-    test('unsetCompleteTask', () => {
-        expect(tasksActions.unsetCompleteTask(__.task)).toMatchSnapshot();
-    });
-    test('setFavoriteTask', () => {
-        expect(tasksActions.setFavoriteTask(__.task)).toMatchSnapshot();
-    });
-    test('unsetFavoriteTask', () => {
-        expect(tasksActions.unsetFavoriteTask(__.task)).toMatchSnapshot();
-    });
     test('setTaskNewMessage', () => {
         expect(tasksActions.setTaskNewMessage(__.taskId, __.message)).toMatchSnapshot();
     });

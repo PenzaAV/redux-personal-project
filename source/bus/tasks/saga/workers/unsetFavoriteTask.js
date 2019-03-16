@@ -10,19 +10,15 @@ import { taskShape } from "../../../../instruments/helpers";
 export function* unsetFavoriteTask ({ payload: task }) {
     try {
         yield put(uiActions.startFetching());
-        const unfavoriteTask = taskShape({
-            ...task,
-            favorite: false,
-        });
 
-        const response = yield apply(api, api.updateTask, [unfavoriteTask]);
+        const response = yield apply(api, api.updateTask, [{ ...task, favorite: false }]);
         const { data: updatedTask, message } = yield apply(response, response.json);
 
         if (response.status !== 200) {
             throw new Error(message);
         }
 
-        yield put(tasksActions.unsetFavoriteTask(updatedTask[0]));
+        yield put(tasksActions.updateTask(updatedTask));
     } catch (error) {
         yield put(uiActions.emitError(error, "unsetFavoriteTask worker"));
     } finally {

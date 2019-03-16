@@ -9,18 +9,15 @@ import { uiActions } from "../../../ui/actions";
 export function* unsetCompleteTask ({ payload: task }) {
     try {
         yield put(uiActions.startFetching());
-        const incompletedTask = {
-            ...task,
-            completed: false,
-        };
-        const response = yield apply(api, api.updateTask, [incompletedTask]);
+
+        const response = yield apply(api, api.updateTask, [{ ...task, completed: false }]);
         const { data: updatedTask, message } = yield apply(response, response.json);
 
         if (response.status !== 200) {
             throw new Error(message);
         }
 
-        yield put(tasksActions.unsetCompleteTask(updatedTask[0]));
+        yield put(tasksActions.updateTask(updatedTask));
     } catch (error) {
         yield put(uiActions.emitError(error, "unsetCompleteTask worker"));
     } finally {
