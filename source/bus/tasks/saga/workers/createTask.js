@@ -9,6 +9,7 @@ import { uiActions } from "../../../ui/actions";
 export function* createTask ({ payload: text }) {
     try {
         yield put(uiActions.startFetching());
+
         const response = yield apply(api, api.createTask, [text]);
         const { data: task, message } = yield apply(response, response.json);
 

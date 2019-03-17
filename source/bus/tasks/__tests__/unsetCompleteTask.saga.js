@@ -37,7 +37,7 @@ describe('Unset Complete task saga:', () => {
         });
 
         test('should dispatch "stopFetching" action', () => {
-            expect(saga.next().value).toMatchSnapshot();
+            expect(saga.next().value).toEqual(put(uiActions.stopFetching()));
         });
 
         test("should finish", () => {
@@ -49,8 +49,7 @@ describe('Unset Complete task saga:', () => {
     /* по какойто причине в закоментированом коде не пробрасывается [__.task] в payload экшену "updateTask" */
     // test('should complete a 200 status response scenario', async () => {
     //     await expectSaga(unsetCompleteTask, { payload: __.task })
-    //         .put(uiActions.startFetching())
-    //         .apply(taskShape, taskShape, [__.incompletedTask])
+    //         .put(uiActions.startFetching()
     //         .provide([[apply(api, api.updateTask, [{ ...__.task, completed: false }]), __.fetchResponseSuccess]])
     //         .put(tasksActions.updateTask([__.task]))
     //         .put(uiActions.stopFetching())

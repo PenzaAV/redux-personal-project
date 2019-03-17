@@ -1,19 +1,20 @@
 // Core
-import { put, apply } from "redux-saga/effects";
-import { cloneableGenerator } from "redux-saga/utils";
+import { expectSaga } from 'redux-saga-test-plan';
+import { apply, put } from "redux-saga/effects";
 
 // Instruments
 import { api } from "../../../REST";
 import { tasksActions } from "../actions";
 import { uiActions } from "../../ui/actions";
-import { setCompleteTask } from "../saga/workers";
-import { expectSaga } from "redux-saga-test-plan";
+import { fetchTasks } from "../saga/workers";
 
-const setCompleteTaskAction = tasksActions.setCompleteTaskAsync(__.task);
+import { cloneableGenerator } from "redux-saga/utils";
 
-const saga = cloneableGenerator(setCompleteTask)(setCompleteTaskAction);
+const fetchTaskAsyncAction = tasksActions.fetchTasksAsync(__.task);
 
-describe('Set Complete task saga:', () => {
+const saga = cloneableGenerator(fetchTasks)(fetchTaskAsyncAction);
+
+describe('Fetch tasks saga:', () => {
     describe("should pass until response received", () => {
 
         test('should dispatch "startFetching" action', () => {
@@ -21,7 +22,7 @@ describe('Set Complete task saga:', () => {
         });
         test("should call a fetch request", () => {
             expect(saga.next().value).toEqual(
-                apply(api, api.updateTask, [{ ...__.task, completed: true }])
+                apply(api, api.fetchTasks)
             );
         });
     });
@@ -32,7 +33,7 @@ describe('Set Complete task saga:', () => {
                 apply(__.fetchResponseSuccess, __.fetchResponseSuccess.json)
             );
         });
-        test('should dispatch "updateTask" action', () => {
+        test('should dispatch "fillTasks" action', () => {
             expect(saga.next(__.responseDataSuccess).value).toMatchSnapshot();
         });
 
@@ -45,12 +46,10 @@ describe('Set Complete task saga:', () => {
         });
 
     });
-
     test('should complete a 400 status response scenario', async () => {
-        await expectSaga(setCompleteTask, { payload: __.task })
-            .put(uiActions.startFetching())
-            .provide([[apply(api, api.updateTask, [{ ...__.task, completed: true }]), __.fetchResponseFail400]])
-            .put(uiActions.emitError(__.error, "setCompleteTask worker"))
+        await expectSaga(fetchTasks)
+            .provide([[apply(api, api.fetchTasks), __.fetchResponseFail400]])
+            .put(uiActions.emitError(__.error, "fetchTasks worker"))
             .put(uiActions.stopFetching())
             .run();
     });

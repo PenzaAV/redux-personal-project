@@ -29,8 +29,6 @@ export const tasksReducer =  (state = initialState, action) => {
                 , (task) => task.set('isEditState', false));
         case types.CREATE_TASK:
             return state.unshift(fromJS(action.payload));
-        case types.FILTER_TASK_BY_MESSAGE:
-            return filterTasksByMessage(state, action.payload);
         case types.UPDATE_TASK_MESSAGE:
             return state.update(state.findIndex(
                 (task) => task.get('id') === action.payload[0].id)

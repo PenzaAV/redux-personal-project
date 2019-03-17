@@ -7,7 +7,7 @@ import { uiActions } from "../../ui/actions";
 import { tasksActions } from "../actions";
 import { completeAllTasks } from '../saga/workers';
 import { getUncompleted } from "../../../instruments/helpers";
-import { apply, put } from "redux-saga/effects";
+import { apply } from "redux-saga/effects";
 
 describe('complete all tasks saga:', () => {
     test('should complete a 200 status response scenario', async () => {

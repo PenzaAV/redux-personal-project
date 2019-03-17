@@ -1,6 +1,5 @@
 import { tasksReducer } from "../reducer";
 import { tasksActions } from "../actions";
-import { filterTasksByMessage } from "../../../instruments/helpers";
 
 describe("tasks reducer", () => {
     test("should return initial state by default", () => {
@@ -63,8 +62,5 @@ describe("tasks reducer", () => {
     });
     test("should handle COMPLETE_ALL_TASKS_ASYNC action", () => {
         expect(tasksReducer(__.tasksState, tasksActions.completeAllTasksAsync(__.tasks))).toMatchSnapshot();
-    });
-    test("should handle FILTER_TASK_BY_MESSAGE action", () => {
-        expect(tasksReducer(__.tasksState, filterTasksByMessage(__.tasksState, __.message))).toMatchSnapshot();
     });
 });

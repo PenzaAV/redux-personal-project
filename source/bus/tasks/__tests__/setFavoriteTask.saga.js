@@ -37,7 +37,7 @@ describe('Set Favorite task saga:', () => {
         });
 
         test('should dispatch "stopFetching" action', () => {
-            expect(saga.next().value).toMatchSnapshot();
+            expect(saga.next().value).toEqual(put(uiActions.stopFetching()));
         });
 
         test("should finish", () => {

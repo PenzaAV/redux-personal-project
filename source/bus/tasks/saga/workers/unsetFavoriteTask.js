@@ -5,7 +5,6 @@ import { put, apply } from "redux-saga/effects";
 import { api } from "../../../../REST";
 import { tasksActions } from "../../actions";
 import { uiActions } from "../../../ui/actions";
-import { taskShape } from "../../../../instruments/helpers";
 
 export function* unsetFavoriteTask ({ payload: task }) {
     try {

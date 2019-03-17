@@ -1,19 +1,19 @@
 // Core
+import { expectSaga } from 'redux-saga-test-plan';
 import { put, apply } from "redux-saga/effects";
-import { cloneableGenerator } from "redux-saga/utils";
 
 // Instruments
 import { api } from "../../../REST";
 import { tasksActions } from "../actions";
 import { uiActions } from "../../ui/actions";
-import { setCompleteTask } from "../saga/workers";
-import { expectSaga } from "redux-saga-test-plan";
+import { createTask } from "../saga/workers";
+import { cloneableGenerator } from "redux-saga/utils";
 
-const setCompleteTaskAction = tasksActions.setCompleteTaskAsync(__.task);
+const createTaskAsyncAction = tasksActions.createTaskAsync(__.message);
 
-const saga = cloneableGenerator(setCompleteTask)(setCompleteTaskAction);
+const saga = cloneableGenerator(createTask)(createTaskAsyncAction);
 
-describe('Set Complete task saga:', () => {
+describe('Create task saga:', () => {
     describe("should pass until response received", () => {
 
         test('should dispatch "startFetching" action', () => {
@@ -21,7 +21,7 @@ describe('Set Complete task saga:', () => {
         });
         test("should call a fetch request", () => {
             expect(saga.next().value).toEqual(
-                apply(api, api.updateTask, [{ ...__.task, completed: true }])
+                apply(api, api.createTask, [__.message])
             );
         });
     });
@@ -32,7 +32,7 @@ describe('Set Complete task saga:', () => {
                 apply(__.fetchResponseSuccess, __.fetchResponseSuccess.json)
             );
         });
-        test('should dispatch "updateTask" action', () => {
+        test('should dispatch "createTask" action', () => {
             expect(saga.next(__.responseDataSuccess).value).toMatchSnapshot();
         });
 
@@ -45,12 +45,11 @@ describe('Set Complete task saga:', () => {
         });
 
     });
-
     test('should complete a 400 status response scenario', async () => {
-        await expectSaga(setCompleteTask, { payload: __.task })
+        await expectSaga(createTask, { payload: __.message })
             .put(uiActions.startFetching())
-            .provide([[apply(api, api.updateTask, [{ ...__.task, completed: true }]), __.fetchResponseFail400]])
-            .put(uiActions.emitError(__.error, "setCompleteTask worker"))
+            .provide([[apply(api, api.createTask, [__.message]), __.fetchResponseFail400]])
+            .put(uiActions.emitError(__.error, "createTask worker"))
             .put(uiActions.stopFetching())
             .run();
     });
