@@ -13,12 +13,9 @@
 */
 
 import { LocalStorage } from './mocks/localStorage';
-import { fromJS, List, Map } from "immutable";
-import { taskShape as shape } from "../../source/instruments/helpers";
+import { fromJS } from "immutable";
 
-const successMessage = 'TEST_SUCCESS_MESSAGE.';
-const errorMessage = 'TEST_ERROR_MESSAGE.';
-const message = 'test message';
+// tasks
 const tasks = [
     {
         id:        'test_task_id',
@@ -36,41 +33,22 @@ const tasks = [
     }
 ];
 const tasksState = fromJS(tasks);
-const uncompletedTasksState = tasksState.filter((task) => {
+const uncompletedTasks = tasksState.filter((task) => {
     return task.get('completed') === false;
 });
 
-const task = {
-    id:        'test_task_id',
-    message:   "test_task_message",
-    completed: false,
-    favorite:  false,
-    created:   "2019-03-15T11:08:49.411Z",
-};
-const completedTask = {
-    ...task,
-    completed: true,
-};
-const incompletedTask = {
-    ...task,
-    completed: false,
-};
-const favoriteTask = {
-    ...task,
-    favorite: true,
-};
-const unfavoriteTask = {
-    ...task,
-    favorite: false,
-};
-
-const taskShape = shape(task);
+const task = tasks[0];
 
 const taskId = 'test_task_id';
+const message = 'test message';
 
+// Responses
+const successMessage = 'TEST_SUCCESS_MESSAGE.';
+const errorMessage = 'TEST_ERROR_MESSAGE.';
 const responseDataFail = {
     message: errorMessage,
 };
+
 const fetchResponseSuccess = {
     status: 200,
     json:   jest.fn(() => Promise.resolve(task)),
@@ -83,10 +61,6 @@ const fetchResponseSuccess204 = {
 const responseDataSuccess = {
     data:    task,
     message: successMessage,
-};
-const fetchResponseFail401 = {
-    status: 401,
-    json:   jest.fn(() => Promise.resolve(responseDataFail)),
 };
 
 const fetchResponseFail400 = {
@@ -106,14 +80,9 @@ const error = new Error(errorMessage);
 
 global.__ = {
     message,
-    taskShape,
     responseDataSuccess,
     tasks,
     task,
-    completedTask,
-    incompletedTask,
-    favoriteTask,
-    unfavoriteTask,
     taskId,
     tasksState,
     fetchResponseSuccess,
@@ -122,7 +91,7 @@ global.__ = {
     error,
     fetchResponseFail400,
     fetchResponseSuccess204,
-    uncompletedTasksState,
+    uncompletedTasks,
 };
 
 global.localStorage = new LocalStorage();

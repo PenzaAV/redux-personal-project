@@ -1,59 +1,60 @@
 import { tasksActions } from "../actions";
 
-describe('Tasks actions', () => {
-    test('fillTasks', () => {
+describe("Tasks actions", () => {
+    test("fillTasks", () => {
         expect(tasksActions.fillTasks(__.tasks)).toMatchSnapshot();
     });
-    test('createTask', () => {
+    test("createTask", () => {
         expect(tasksActions.createTask(__.task)).toMatchSnapshot();
     });
-    test('removeTask', () => {
+    test("removeTask", () => {
         expect(tasksActions.removeTask(__.taskId)).toMatchSnapshot();
     });
-    test('setTaskNewMessage', () => {
-        expect(tasksActions.setTaskNewMessage(__.taskId, __.message)).toMatchSnapshot();
+    test("setTaskNewMessage", () => {
+        expect(
+            tasksActions.setTaskNewMessage(__.taskId, __.message)
+        ).toMatchSnapshot();
     });
-    test('clearTaskNewMessage', () => {
+    test("clearTaskNewMessage", () => {
         expect(tasksActions.clearTaskNewMessage()).toMatchSnapshot();
     });
-    test('enableEditState', () => {
+    test("enableEditState", () => {
         expect(tasksActions.enableEditState()).toMatchSnapshot();
     });
-    test('disableEditState', () => {
+    test("disableEditState", () => {
         expect(tasksActions.disableEditState()).toMatchSnapshot();
     });
-    test('updateTaskMessage', () => {
+    test("updateTaskMessage", () => {
         expect(tasksActions.updateTaskMessage(__.task)).toMatchSnapshot();
     });
-    test('completeAllTasks', () => {
+    test("completeAllTasks", () => {
         expect(tasksActions.completeAllTasks(__.tasks)).toMatchSnapshot();
     });
-    test('fetchTasksAsync', () => {
+    test("fetchTasksAsync", () => {
         expect(tasksActions.fetchTasksAsync()).toMatchSnapshot();
     });
-    test('createTaskAsync', () => {
+    test("createTaskAsync", () => {
         expect(tasksActions.createTaskAsync(__.message)).toMatchSnapshot();
     });
-    test('removeTaskAsync', () => {
+    test("removeTaskAsync", () => {
         expect(tasksActions.removeTaskAsync(__.taskId)).toMatchSnapshot();
     });
-    test('setCompleteTaskAsync', () => {
+    test("setCompleteTaskAsync", () => {
         expect(tasksActions.setCompleteTaskAsync(__.task)).toMatchSnapshot();
     });
-    test('unsetCompleteTaskAsync', () => {
+    test("unsetCompleteTaskAsync", () => {
         expect(tasksActions.unsetCompleteTaskAsync(__.task)).toMatchSnapshot();
     });
-    test('setFavoriteTaskAsync', () => {
+    test("setFavoriteTaskAsync", () => {
         expect(tasksActions.setFavoriteTaskAsync(__.task)).toMatchSnapshot();
     });
-    test('unsetFavoriteTaskAsync', () => {
+    test("unsetFavoriteTaskAsync", () => {
         expect(tasksActions.unsetFavoriteTaskAsync(__.task)).toMatchSnapshot();
     });
-    test('updateTaskMessageAsync', () => {
+    test("updateTaskMessageAsync", () => {
         expect(tasksActions.updateTaskMessageAsync(__.task)).toMatchSnapshot();
     });
-    test('completeAllTasksAsync', () => {
+    test("completeAllTasksAsync", () => {
         expect(tasksActions.completeAllTasksAsync(__.tasks)).toMatchSnapshot();
     });
-
 });

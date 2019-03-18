@@ -9,13 +9,16 @@ import { uiActions } from "../../ui/actions";
 import { unsetFavoriteTask } from "../saga/workers";
 import { expectSaga } from "redux-saga-test-plan";
 
-const unsetFavoriteTaskAsyncAction = tasksActions.unsetFavoriteTaskAsync(__.task);
+const unsetFavoriteTaskAsyncAction = tasksActions.unsetFavoriteTaskAsync(
+    __.task
+);
 
-const saga = cloneableGenerator(unsetFavoriteTask)(unsetFavoriteTaskAsyncAction);
+const saga = cloneableGenerator(unsetFavoriteTask)(
+    unsetFavoriteTaskAsyncAction
+);
 
-describe('Unset Favorite task saga:', () => {
+describe("Unset Favorite task saga:", () => {
     describe("should pass until response received", () => {
-
         test('should dispatch "startFetching" action', () => {
             expect(saga.next().value).toEqual(put(uiActions.startFetching()));
         });
@@ -43,13 +46,19 @@ describe('Unset Favorite task saga:', () => {
         test("should finish", () => {
             expect(saga.next().done).toBe(true);
         });
-
     });
 
-    test('should complete a 400 status response scenario', async () => {
+    test("should complete a 400 status response scenario", async () => {
         await expectSaga(unsetFavoriteTask, { payload: __.task })
             .put(uiActions.startFetching())
-            .provide([[apply(api, api.updateTask, [{ ...__.task, favorite: false }]), __.fetchResponseFail400]])
+            .provide([
+                [
+                    apply(api, api.updateTask, [
+                        { ...__.task, favorite: false }
+                    ]),
+                    __.fetchResponseFail400
+                ]
+            ])
             .put(uiActions.emitError(__.error, "unsetFavoriteTask worker"))
             .put(uiActions.stopFetching())
             .run();

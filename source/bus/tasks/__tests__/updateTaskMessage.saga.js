@@ -13,9 +13,8 @@ const updateTaskMessageAction = tasksActions.updateTaskMessageAsync(__.task);
 
 const saga = cloneableGenerator(updateTaskMessage)(updateTaskMessageAction);
 
-describe('Update task message saga:', () => {
+describe("Update task message saga:", () => {
     describe("should pass until response received", () => {
-
         test('should dispatch "startFetching" action', () => {
             expect(saga.next().value).toEqual(put(uiActions.startFetching()));
         });
@@ -36,10 +35,14 @@ describe('Update task message saga:', () => {
             expect(saga.next(__.responseDataSuccess).value).toMatchSnapshot();
         });
         test('should dispatch "disableEditState" action', () => {
-            expect(saga.next().value).toEqual(put(tasksActions.disableEditState()));
+            expect(saga.next().value).toEqual(
+                put(tasksActions.disableEditState())
+            );
         });
         test('should dispatch "clearTaskNewMessage" action', () => {
-            expect(saga.next().value).toEqual(put(tasksActions.clearTaskNewMessage()));
+            expect(saga.next().value).toEqual(
+                put(tasksActions.clearTaskNewMessage())
+            );
         });
 
         test('should dispatch "stopFetching" action', () => {
@@ -49,13 +52,17 @@ describe('Update task message saga:', () => {
         test("should finish", () => {
             expect(saga.next().done).toBe(true);
         });
-
     });
 
-    test('should complete a 400 status response scenario', async () => {
+    test("should complete a 400 status response scenario", async () => {
         await expectSaga(updateTaskMessage, { payload: __.task })
             .put(uiActions.startFetching())
-            .provide([[apply(api, api.updateTask, [{ ...__.task }]), __.fetchResponseFail400]])
+            .provide([
+                [
+                    apply(api, api.updateTask, [{ ...__.task }]),
+                    __.fetchResponseFail400
+                ]
+            ])
             .put(uiActions.emitError(__.error, "updateTaskMessage worker"))
             .put(uiActions.stopFetching())
             .run();

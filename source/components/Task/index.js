@@ -1,15 +1,15 @@
 // Core
-import React, { PureComponent } from 'react';
-import cx from 'classnames';
+import React, { PureComponent } from "react";
+import cx from "classnames";
 
 // Instruments
-import Styles from './styles.m.css';
+import Styles from "./styles.m.css";
 
 // Components
-import Checkbox from '../../theme/assets/Checkbox';
-import Remove from '../../theme/assets/Remove';
-import Edit from '../../theme/assets/Edit';
-import Star from '../../theme/assets/Star';
+import Checkbox from "../../theme/assets/Checkbox";
+import Remove from "../../theme/assets/Remove";
+import Edit from "../../theme/assets/Edit";
+import Star from "../../theme/assets/Star";
 
 export default class Task extends PureComponent {
     componentDidUpdate () {
@@ -73,11 +73,20 @@ export default class Task extends PureComponent {
             actions.clearTaskNewMessage();
         }
         if (event.key === "Enter" && newMessage !== "") {
-            actions.updateTaskMessageAsync({ ...this.props, message: newMessage });
+            actions.updateTaskMessageAsync({
+                ...this.props,
+                message: newMessage,
+            });
         }
     };
     render () {
-        const { newMessage, message, completed, favorite, isEditState } = this.props;
+        const {
+            newMessage,
+            message,
+            completed,
+            favorite,
+            isEditState,
+        } = this.props;
         const styles = cx(Styles.task, {
             [Styles.completed]: completed,
         });
@@ -96,11 +105,11 @@ export default class Task extends PureComponent {
                     <input
                         disabled = { !isEditState }
                         maxLength = { 50 }
-                        onChange = { this._updateNewMessage }
-                        onKeyDown = { this._keyDownHandler }
                         ref = { this.taskInput }
                         type = 'text'
                         value = { isEditState ? newMessage : message }
+                        onChange = { this._updateNewMessage }
+                        onKeyDown = { this._keyDownHandler }
                     />
                 </div>
                 <div className = { Styles.actions }>

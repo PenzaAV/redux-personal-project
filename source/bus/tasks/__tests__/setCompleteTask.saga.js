@@ -13,9 +13,8 @@ const setCompleteTaskAction = tasksActions.setCompleteTaskAsync(__.task);
 
 const saga = cloneableGenerator(setCompleteTask)(setCompleteTaskAction);
 
-describe('Set Complete task saga:', () => {
+describe("Set Complete task saga:", () => {
     describe("should pass until response received", () => {
-
         test('should dispatch "startFetching" action', () => {
             expect(saga.next().value).toEqual(put(uiActions.startFetching()));
         });
@@ -43,13 +42,19 @@ describe('Set Complete task saga:', () => {
         test("should finish", () => {
             expect(saga.next().done).toBe(true);
         });
-
     });
 
-    test('should complete a 400 status response scenario', async () => {
+    test("should complete a 400 status response scenario", async () => {
         await expectSaga(setCompleteTask, { payload: __.task })
             .put(uiActions.startFetching())
-            .provide([[apply(api, api.updateTask, [{ ...__.task, completed: true }]), __.fetchResponseFail400]])
+            .provide([
+                [
+                    apply(api, api.updateTask, [
+                        { ...__.task, completed: true }
+                    ]),
+                    __.fetchResponseFail400
+                ]
+            ])
             .put(uiActions.emitError(__.error, "setCompleteTask worker"))
             .put(uiActions.stopFetching())
             .run();

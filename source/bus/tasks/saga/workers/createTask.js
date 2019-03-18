@@ -23,5 +23,4 @@ export function* createTask ({ payload: text }) {
     } finally {
         yield put(uiActions.stopFetching());
     }
-
 }

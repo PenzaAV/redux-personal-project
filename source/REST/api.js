@@ -4,9 +4,9 @@ import { taskShape } from "../instruments/helpers";
 export const api = {
     createTask (message) {
         return fetch(`${MAIN_URL}`, {
-            method:  'POST',
+            method:  "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 Authorization:  TOKEN,
             },
             body: JSON.stringify({ message }),
@@ -39,18 +39,19 @@ export const api = {
         });
     },
 
-    async completeAllTasks (tasks) {
-        const completedTasks = tasks.map(
-            (task) => {
-                task.completed = true;
+    completeAllTasks (tasks) {
+        const completedTasks = tasks.map((task) => {
+            task.completed = true;
 
-                return api.updateTask(task);
-            });
-        return await Promise.all(completedTasks.map((promise) => {
-            return promise.catch((error) => {
+            return api.updateTask(task);
+        });
 
-                return error;
-            });
-        }));
+        return Promise.all(
+            completedTasks.map((promise) => {
+                return promise.catch((error) => {
+                    return error;
+                });
+            })
+        );
     },
 };

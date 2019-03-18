@@ -1,5 +1,5 @@
 // Core
-import { expectSaga } from 'redux-saga-test-plan';
+import { expectSaga } from "redux-saga-test-plan";
 import { put, apply } from "redux-saga/effects";
 
 // Instruments
@@ -13,9 +13,8 @@ const createTaskAsyncAction = tasksActions.createTaskAsync(__.message);
 
 const saga = cloneableGenerator(createTask)(createTaskAsyncAction);
 
-describe('Create task saga:', () => {
+describe("Create task saga:", () => {
     describe("should pass until response received", () => {
-
         test('should dispatch "startFetching" action', () => {
             expect(saga.next().value).toEqual(put(uiActions.startFetching()));
         });
@@ -43,12 +42,16 @@ describe('Create task saga:', () => {
         test("should finish", () => {
             expect(saga.next().done).toBe(true);
         });
-
     });
-    test('should complete a 400 status response scenario', async () => {
+    test("should complete a 400 status response scenario", async () => {
         await expectSaga(createTask, { payload: __.message })
             .put(uiActions.startFetching())
-            .provide([[apply(api, api.createTask, [__.message]), __.fetchResponseFail400]])
+            .provide([
+                [
+                    apply(api, api.createTask, [__.message]),
+                    __.fetchResponseFail400
+                ]
+            ])
             .put(uiActions.emitError(__.error, "createTask worker"))
             .put(uiActions.stopFetching())
             .run();

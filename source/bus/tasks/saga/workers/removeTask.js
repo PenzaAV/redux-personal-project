@@ -23,5 +23,4 @@ export function* removeTask ({ payload: taskId }) {
     } finally {
         yield put(uiActions.stopFetching());
     }
-
 }

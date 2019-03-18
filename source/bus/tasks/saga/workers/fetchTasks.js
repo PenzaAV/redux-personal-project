@@ -21,5 +21,4 @@ export function* fetchTasks () {
     } finally {
         yield put(uiActions.stopFetching());
     }
-
 }

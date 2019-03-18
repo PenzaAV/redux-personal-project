@@ -10,8 +10,13 @@ export function* unsetFavoriteTask ({ payload: task }) {
     try {
         yield put(uiActions.startFetching());
 
-        const response = yield apply(api, api.updateTask, [{ ...task, favorite: false }]);
-        const { data: updatedTask, message } = yield apply(response, response.json);
+        const response = yield apply(api, api.updateTask, [
+            { ...task, favorite: false }
+        ]);
+        const { data: updatedTask, message } = yield apply(
+            response,
+            response.json
+        );
 
         if (response.status !== 200) {
             throw new Error(message);
@@ -23,5 +28,4 @@ export function* unsetFavoriteTask ({ payload: task }) {
     } finally {
         yield put(uiActions.stopFetching());
     }
-
 }

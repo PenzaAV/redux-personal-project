@@ -10,8 +10,13 @@ export function* setCompleteTask ({ payload: task }) {
     try {
         yield put(uiActions.startFetching());
 
-        const response = yield apply(api, api.updateTask, [{ ...task, completed: true }]);
-        const { data: updatedTask, message } = yield apply(response, response.json);
+        const response = yield apply(api, api.updateTask, [
+            { ...task, completed: true }
+        ]);
+        const { data: updatedTask, message } = yield apply(
+            response,
+            response.json
+        );
 
         if (response.status !== 200) {
             throw new Error(message);

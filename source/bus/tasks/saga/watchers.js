@@ -4,7 +4,17 @@ import { takeEvery, all, call } from "redux-saga/effects";
 // Types
 import { types } from "../types";
 // Workers
-import { createTask, fetchTasks, removeTask, setCompleteTask, unsetCompleteTask, setFavoriteTask, unsetFavoriteTask, updateTaskMessage, completeAllTasks } from "./workers";
+import {
+    createTask,
+    fetchTasks,
+    removeTask,
+    setCompleteTask,
+    unsetCompleteTask,
+    setFavoriteTask,
+    unsetFavoriteTask,
+    updateTaskMessage,
+    completeAllTasks
+} from "./workers";
 
 function* watchCreateTask () {
     yield takeEvery(types.CREATE_TASK_ASYNC, createTask);
