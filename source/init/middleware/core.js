@@ -28,4 +28,4 @@ if (__DEV__) {
 }
 const enhancedStore = composeEnhancers(applyMiddleware(...middleware));
 
-export { enhancedStore, sagaMiddleware, history };
+export { enhancedStore, sagaMiddleware };
